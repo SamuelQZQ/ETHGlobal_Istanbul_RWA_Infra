@@ -17,7 +17,7 @@ export const Logo = (props: any) => {
           height={12}
           alt={"Login Image"}
           objectFit={"cover"}
-          src={"/logo.jpeg"}
+          src={"/logo.png"}
         />
         <Text fontWeight="bold">AssetFuse</Text>
       </>

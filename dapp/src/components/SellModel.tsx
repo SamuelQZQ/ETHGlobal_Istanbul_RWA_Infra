@@ -13,7 +13,7 @@ export const SellModel = ({ tokenId, nftJson, src, isOpen, onClose }: { nftJson:
 
     const prices = usePriceFeeds();
     console.log(prices);
-    const [amount, setAmount] = useState<number | undefined>(undefined);
+    const [amount, setAmount] = useState<string | undefined>(undefined);
     const [coin, setCoin] = useState<string>("USDC");
     const price = coin === "USDC" ? prices.usdc_usd : prices.eth_usd;
     const contract = useCurrentContract();
@@ -24,7 +24,7 @@ export const SellModel = ({ tokenId, nftJson, src, isOpen, onClose }: { nftJson:
     const list = async () => {
         await listProduct(
             {
-                amount: ethers.utils.parseEther((amount || 0).toString())
+                amount: ethers.utils.parseEther((Number(amount) || 0).toString())
                 , fees: 0, tokenAddress: ethers.constants.AddressZero
             },
             { nftAddress: contract, tokenId: tokenId },
@@ -69,7 +69,7 @@ export const SellModel = ({ tokenId, nftJson, src, isOpen, onClose }: { nftJson:
                                 <Text mb={2}>Price</Text>
                                 <Input
                                     value={amount}
-                                    onChange={(e) => setAmount(Number(e.target.value))}
+                                    onChange={(e) => setAmount(e.target.value)}
                                     backgroundColor={"#D8DAF6"}
                                     placeholder="Amount"></Input>
                             </Box>
@@ -104,7 +104,7 @@ export const SellModel = ({ tokenId, nftJson, src, isOpen, onClose }: { nftJson:
                     <Stack fontSize={"small"}>
                         <HStack justifyContent={"space-between"}>
                             <Text color="#8B8B93">Listing Price</Text>
-                            <Text>${(price * (amount ?? 0)).toFixed(2)}</Text>
+                            <Text>${(price * (Number(amount) ?? 0)).toFixed(2)}</Text>
                         </HStack>
                         <HStack justifyContent={"space-between"}>
                             <Text color="#8B8B93">AssetFuse Fees</Text>
@@ -115,7 +115,7 @@ export const SellModel = ({ tokenId, nftJson, src, isOpen, onClose }: { nftJson:
                     <Stack fontSize={"small"}>
                         <HStack justifyContent={"space-between"}>
                             <Text color="#8B8B93">Total Potential Earnings</Text>
-                            <Text>${(price * (amount ?? 0) * 0.95).toFixed(2)}</Text>
+                            <Text>${(price * (Number(amount) ?? 0) * 0.95).toFixed(2)}</Text>
                         </HStack>
                     </Stack>
                 </Stack>
