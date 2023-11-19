@@ -23,7 +23,10 @@ export const SellModel = ({ tokenId, nftJson, src, isOpen, onClose }: { nftJson:
     const [isLoading, setIsLoading] = useState(false);
     const list = async () => {
         await listProduct(
-            { amount: tokenId, fees: 0, tokenAddress: ethers.constants.AddressZero },
+            {
+                amount: ethers.utils.parseEther((amount || 0).toString())
+                , fees: 0, tokenAddress: ethers.constants.AddressZero
+            },
             { nftAddress: contract, tokenId: tokenId },
             0,
             network.chain?.id!,
