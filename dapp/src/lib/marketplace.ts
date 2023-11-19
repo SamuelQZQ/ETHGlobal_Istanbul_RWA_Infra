@@ -131,7 +131,8 @@ export async function getAllOffers(
     provider
   );
   const filter = contract.filters.OfferCreated();
-  const events = await contract.queryFilter(filter);
+  const block = await provider.getBlockNumber();
+  const events = await contract.queryFilter(filter, block - 2000);
   const offers = events.map((event) => event.args);
   return offers.map((x) => ({
     seller: x?.seller,
